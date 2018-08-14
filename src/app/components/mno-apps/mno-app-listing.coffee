@@ -4,7 +4,7 @@ angular.module 'mnoEnterpriseAngular'
     bindings: {
       isPublic: '@'
     }
-    controller: ($scope, toastr, MnoeOrganizations, MnoeMarketplace, MnoeConfig) ->
+    controller: ($scope, orderByFilter, toastr, MnoeOrganizations, MnoeMarketplace, MnoeConfig) ->
       vm = this
 
       #====================================
@@ -84,7 +84,7 @@ angular.module 'mnoEnterpriseAngular'
             response = response.plain()
 
             vm.categories = response.categories
-            vm.apps = response.apps
+            vm.apps = orderByFilter(response.apps, 'name')
             if vm.publicPage
               vm.apps = _.filter(vm.apps, (app) -> _.includes(MnoeConfig.publicApplications(), app.nid))
               categoriesWithProduct = _.uniq(_.flatten(_.map(vm.apps, (app) -> app.categories)))

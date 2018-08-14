@@ -8,7 +8,7 @@ angular.module 'mnoEnterpriseAngular'
     bindings: {
       isPublic: '@'
     }
-    controller: ($scope, MnoeOrganizations, MnoeMarketplace, MnoeConfig) ->
+    controller: ($scope, orderByFilter, MnoeOrganizations, MnoeMarketplace, MnoeConfig) ->
       vm = this
 
       #====================================
@@ -24,9 +24,9 @@ angular.module 'mnoEnterpriseAngular'
         MnoeMarketplace.getApps().then(
           (response) ->
             if vm.publicPage
-              vm.products = _.filter(response.products, (product) -> product.local && _.includes(MnoeConfig.publicLocalProducts(), product.nid))
+              vm.products = _.filter(orderByFilter(response.products, 'name'), (product) -> product.local && _.includes(MnoeConfig.publicLocalProducts(), product.nid))
             else
-              vm.products = _.filter(response.products, 'local')
+              vm.products = _.filter(orderByFilter(response.products, 'name'), 'local')
           ).finally(-> vm.isLoading = false)
 
       #====================================
