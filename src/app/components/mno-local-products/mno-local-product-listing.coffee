@@ -24,9 +24,9 @@ angular.module 'mnoEnterpriseAngular'
         MnoeMarketplace.getApps().then(
           (response) ->
             if vm.publicPage
-              vm.products = _(response.products).filter((product) -> product.local && _.includes(MnoeConfig.publicLocalProducts(), product.nid)).sortBy('name').value()
+              vm.products = _(response.products).filter((product) -> product.local && _.includes(MnoeConfig.publicLocalProducts(), product.nid)).sortBy((p) -> p.name?.toLowerCase()).value()
             else
-              vm.products = _(response.products).filter('local').sortBy('name').value()
+              vm.products = _(response.products).filter('local').sortBy((p) -> p.name?.toLowerCase()).value()
           ).finally(-> vm.isLoading = false)
 
       #====================================
